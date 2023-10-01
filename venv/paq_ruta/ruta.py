@@ -15,6 +15,7 @@ def get_db():
     finally:
         db.close()
 
+#LIBRO
 @ruta_libro.post("/libro")
 def ingresar_libro(libro: LibroEsquema, db: Session = Depends(get_db)):
     return crud.crear_libro(db=db, libroEsquema=libro)
@@ -25,6 +26,11 @@ def consultar_libro_por_id(idLibro, db: Session = Depends(get_db)):
     if libro_por_id:
         return libro_por_id 
     raise HTTPException(status_code=404, detail='User not Found!!')
+
+@ruta_libro.delete("/libro/{id}")
+def eliminar_libro(id, db: Session = Depends(get_db)):
+    crud.remove_idioma_por_id(db=db, id=id)
+
 
 #IDIOMA
 from paq_modelo.IdiomaEsquema import IdiomaDatos
