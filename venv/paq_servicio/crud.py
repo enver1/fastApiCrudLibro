@@ -31,22 +31,29 @@ def remove_idioma_por_id(db: Session, id: int):
 
 #fin eliminar libro
 
+
+#----->Inicio->IDIOMA
+#create
 def crear_idioma(db: Session, idioma_datos: IdiomaDatos):
      obj = Idioma(nombre=idioma_datos.nombre)
      db.add(obj)
      db.commit()
      db.flush(obj)
      return obj
-
-
-
-
-
+#find por id
 def get_idioma_por_id(db: Session, id: int):
     return db.query(Idioma).filter(Idioma.id == id).first()
-
+#edit
+def editar_idioma(db: Session, id: int, idioma_esquema: IdiomaDatos):
+    obj = get_idioma_por_id(db, id=id)
+    if(obj.id):
+        obj.nombre=idioma_esquema.nombre
+        db.commit()
+        db.refresh(obj)
+        return obj
+#-->Fin IDIOMA
+#-----> inicio ESTUDIANTE
 #obtener todos los estudiantes
 from paq_modelo.Estudiante import Estudiante
 def get_estudiantes(db: Session):
     return db.query(Estudiante).all()
-
